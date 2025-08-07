@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Landing Page do Livro - Protótipo</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fafafa;
+    color: #333;
+  }
+  header {
+    background: #004d40;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 2em;
+  }
+  .container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 15px;
+  }
+  .book-cover {
+    max-width: 300px;
+    margin: 20px auto;
+    display: block;
+  }
+  section {
+    margin-bottom: 40px;
+  }
+  h2 {
+    color: #004d40;
+    border-bottom: 3px solid #004d40;
+    display: inline-block;
+    padding-bottom: 5px;
+  }
+  .author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .author img {
+    width: 80px;
+    border-radius: 50%;
+  }
+  .testimonials {
+    background: #e0f2f1;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  .testimonial-item {
+    margin-bottom: 15px;
+    font-style: italic;
+  }
+  .cta-button {
+    background: #00796b;
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    width: 250px;
+    text-align: center;
+    text-decoration: none;
+  }
+  form {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  input[type="submit"] {
+    background: #00796b;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+  @media(max-width:600px) {
+    .author {
+      flex-direction: column;
+      text-align: center;
+    }
+    .author img {
+      margin-bottom: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Ateus são os verdadeiros negacionistas: a ciência mostra que Deus está dentro de você</h1>
+</header>
+
+<div class="container">
+
+  <section>
+    <img src="https://via.placeholder.com/300x450?text=Capa+do+Livro" alt="Capa do Livro" class="book-cover" />
+  </section>
+
+  <section>
+    <h2>Bem-vindo!</h2>
+    <p>Conheça o livro que une ciência, genética e fé para mostrar uma nova perspectiva sobre a existência da vida e Deus.</p>
+  </section>
+
+  <section>
+    <h2>Sinopse</h2>
+    <p>Este livro aborda de forma acessível e racional a linguagem oculta no DNA, provando que há uma mente por trás da vida. Para quem busca uma visão equilibrada entre fé e ciência, sem jargões técnicos ou superficialidades.</p>
+  </section>
+
+  <section class="author">
+    <img src="https://via.placeholder.com/80?text=Autor" alt="Foto do Autor" />
+    <div>
+      <h3>Sobre o autor</h3>
+      <p>João Silva é biólogo e escritor, apaixonado por ciência e espiritualidade. Com vários artigos publicados, ele busca mostrar que fé e razão podem caminhar juntas.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>O que dizem sobre o livro</h2>
+    <div class="testimonials">
+      <div class="testimonial-item">“Um livro que muda a forma de pensar sobre a fé e a ciência.” – Maria P.</div>
+      <div class="testimonial-item">“Explica com clareza e lógica aquilo que muitos temem debater.” – Carlos M.</div>
+      <div class="testimonial-item">“Leitura obrigatória para quem busca entender o papel da genética e da espiritualidade.” – Ana R.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Quer ser avisado do lançamento?</h2>
+    <form id="notifyForm">
+      <input type="email" id="email" placeholder="Seu melhor e-mail" required />
+      <input type="submit" value="Quero ser avisado" />
+    </form>
+  </section>
+
+</div>
+
+<script>
+  document.getElementById('notifyForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert('Obrigado! Você será avisado sobre o lançamento.');
+    this.reset();
+  });
+</script>
+
+</body>
+</html>
