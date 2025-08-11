@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Protótipo — Negacionista é o Ateu!</title>
+  <title>Negacionista é o Ateu! — Protótipo</title>
   <style>
     :root{
       --bg:#070707;
@@ -12,6 +12,7 @@
       --gold1:#c79a3b;
       --gold2:#ffdd66;
       --glass: rgba(255,255,255,0.03);
+      --maxwidth:1100px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -24,59 +25,102 @@
       -moz-osx-font-smoothing:grayscale;
       line-height:1.5;
     }
-    .container{max-width:1100px;margin:0 auto;padding:48px 20px}
-    /* HERO */
-    .hero{padding:64px 0;border-bottom:1px solid rgba(255,255,255,0.03);position:relative;overflow:hidden}
-    .hero-inner{display:flex;gap:32px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-    .hero-left{flex:1 1 480px;min-width:280px}
-    .hero-right{flex:0 0 320px;position:relative}
-    .headline{
-      font-size:36px;margin:0 0 12px;letter-spacing:-0.5px;
-      background:linear-gradient(90deg,var(--gold1),var(--gold2));
-      -webkit-background-clip:text;background-clip:text;color:transparent;
+    .container{max-width:var(--maxwidth);margin:0 auto;padding:48px 20px}
+
+    /* HEADINGS (base) */
+    h1, h2, h3 {
       font-weight:700;
-      text-shadow:0 2px 18px rgba(0,0,0,0.6);
+      margin:0 0 12px;
+      letter-spacing:-0.2px;
+      background: linear-gradient(90deg, var(--gold1), var(--gold2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      position: relative;
+      transition: transform .6s cubic-bezier(.2,.9,.3,1), opacity .6s ease, text-shadow .25s ease;
+      will-change: transform, opacity;
     }
+    /* shimmer overlay (animated gradient) */
+    .shimmer{
+      background-image:
+        linear-gradient(90deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.24) 45%, rgba(255,255,255,0.0) 80%),
+        linear-gradient(90deg, var(--gold1), var(--gold2));
+      background-size: 200% 100%, 100% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 2.4s linear infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -120% 0, 0 0; }
+      100% { background-position: 120% 0, 0 0; }
+    }
+    h1:hover, h2:hover, h3:hover {
+      text-shadow: 0 6px 28px rgba(199,154,59,0.12), 0 0 20px rgba(255,221,102,0.06);
+    }
+
+    /* entry animation: elements start hidden */
+    .animate { opacity: 0; transform: translateY(18px); }
+    .animate.inview { opacity: 1; transform: none; }
+
+    /* HERO */
+    .hero{padding:72px 0;border-bottom:1px solid rgba(255,255,255,0.03);position:relative;overflow:hidden}
+    .hero-inner{display:flex;gap:32px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .hero-left{flex:1 1 480px;min-width:300px}
+    .hero-right{flex:0 0 320px;position:relative}
+    .headline{font-size:40px;line-height:1.02}
     .subhead{color:var(--muted);margin:0 0 20px;font-size:16px}
     .cta-row{display:flex;gap:12px;margin:18px 0}
     .btn{
-      display:inline-block;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:600;
+      display:inline-block;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:700;
       transition:all .25s cubic-bezier(.2,.9,.3,1);
-      box-shadow:0 6px 18px rgba(0,0,0,0.6);
-      cursor:pointer;
-      border: none;
+      box-shadow:0 6px 20px rgba(0,0,0,0.6);
+      cursor:pointer;border:none;
     }
     .btn.primary{background:linear-gradient(90deg,var(--gold1),var(--gold2));color:#111}
     .btn.primary:hover{transform:translateY(-3px);filter:brightness(1.02)}
     .btn.ghost{border:1px solid rgba(255,255,255,0.06);color:var(--muted);background:transparent}
     .btn.ghost:hover{transform:translateY(-3px);background:var(--glass)}
-    .highlights{display:flex;gap:10px;list-style:none;padding:0;margin:18px 0 0;color:var(--muted)}
+
+    .highlights{display:flex;gap:10px;list-style:none;padding:0;margin:18px 0 0;color:var(--muted);flex-wrap:wrap}
     .highlights li{background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:8px;font-size:13px}
-    .book-cover{width:220px;border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,0.7);transform:translateY(0);transition:transform .45s}
+
+    /* book cover */
+    .book-cover{width:240px;border-radius:8px;box-shadow:0 18px 60px rgba(0,0,0,0.7);transform:translateY(0);transition:transform .45s}
     .hero-right .ribbon{position:absolute;right:8px;top:6px;background:linear-gradient(90deg,var(--gold1),var(--gold2));padding:6px 10px;border-radius:8px;color:#111;font-weight:700;font-size:13px}
+
+    /* Sections */
     section{padding:56px 0}
     .intro .container{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
     .video-placeholder{width:420px;height:240px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:600;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.02)}
-    .synopsis h2, .author h2, .social-proof h2{background:linear-gradient(90deg,var(--gold1),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:22px;margin:0 0 16px}
     .features{display:flex;gap:20px;margin-top:18px;flex-wrap:wrap}
     .feature{background:rgba(255,255,255,0.02);padding:18px;border-radius:10px;flex:1;min-width:200px}
+
+    /* author */
     .author-card{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
     .author-photo{width:120px;height:120px;border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,0.6)}
+
+    /* testimonials */
     .testimonials{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:16px}
     .testimonial{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;min-height:110px}
     .testimonial p{margin:8px 0;color:var(--muted)}
     .avatar{width:46px;height:46px;border-radius:10px;float:left;margin-right:12px;box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+
+    /* form */
     .split{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}
     .form input[type="email"]{padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:#fff;width:100%;max-width:420px;margin-right:12px}
     .form-note{color:var(--muted);font-size:13px;margin-top:8px}
     .form-success{margin-top:12px;color:var(--gold2);font-weight:700}
+
     .footer{border-top:1px solid rgba(255,255,255,0.03);padding:24px 0;text-align:center;color:var(--muted);font-size:14px}
-    .animate{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
-    .animate.inview{opacity:1;transform:none}
+
+    /* hero hover */
     .hero .book-cover:hover{transform:translateY(-8px) rotate(-1deg)}
-    @media (max-width:860px){
+
+    /* responsive */
+    @media (max-width:960px){
       .hero-inner{flex-direction:column-reverse;align-items:flex-start}
-      .book-cover{width:180px}
+      .book-cover{width:200px}
       .video-placeholder{width:100%;height:200px}
       .split{flex-direction:column}
     }
@@ -86,31 +130,32 @@
   <header class="hero">
     <div class="hero-inner container">
       <div class="hero-left">
-        <h1 class="headline">Ateus são os verdadeiros negacionistas</h1>
-        <p class="subhead">A ciência mostra que Deus está dentro de você — um argumento lógico e acessível.</p>
+        <h1 class="headline animate">Ateus são os verdadeiros negacionistas</h1>
+        <p class="subhead">A ciência mostra que Deus está dentro de você — um argumento lógico, acessível e visual.</p>
         <div class="cta-row">
-          <a class="btn primary" href="#avisos">Quero ser avisado</a>
+          <a class="btn primary" href="#avisos">Quero ser avisado quando for gratuito</a>
           <a class="btn ghost" href="#comprar">Ver na Amazon</a>
         </div>
         <ul class="highlights">
-          <li>Argumento central</li>
-          <li>Provas sociais</li>
-          <li>Leitura direta</li>
+          <li>Argumento central direto</li>
+          <li>Provas acessíveis</li>
+          <li>Leitura sem jargões</li>
         </ul>
       </div>
+
       <div class="hero-right">
-        <!-- Book cover SVG embutido -->
-        <svg class="book-cover" xmlns="http://www.w3.org/2000/svg" width="220" height="312" viewBox="0 0 480 680" role="img" aria-label="Capa do livro">
+        <!-- Capa (SVG embutido, fictícia) -->
+        <svg class="book-cover" xmlns="http://www.w3.org/2000/svg" width="240" height="312" viewBox="0 0 480 680" role="img" aria-label="Capa do livro">
           <defs>
             <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#c79a3b"/><stop offset="1" stop-color="#ffdd66"/></linearGradient>
           </defs>
           <rect width="100%" height="100%" fill="#0b0b0b" rx="16"/>
           <rect x="16" y="16" width="448" height="648" rx="12" fill="url(#g)"/>
           <g fill="#0b0b0b" font-family="Arial" font-weight="700">
-            <text x="50%" y="36%" font-size="36" text-anchor="middle" fill="#0b0b0b">NEGACIONISTA</text>
-            <text x="50%" y="46%" font-size="20" text-anchor="middle" fill="#0b0b0b">É O ATEU!</text>
-            <text x="50%" y="58%" font-size="14" text-anchor="middle" fill="#0b0b0b">Como a genética prova que Deus</text>
-            <text x="50%" y="66%" font-size="14" text-anchor="middle" fill="#0b0b0b">está literalmente dentro de nós</text>
+            <text x="50%" y="36%" font-size="36" text-anchor="middle">NEGACIONISTA</text>
+            <text x="50%" y="46%" font-size="20" text-anchor="middle">É O ATEU!</text>
+            <text x="50%" y="58%" font-size="14" text-anchor="middle">Como a genética prova que Deus</text>
+            <text x="50%" y="66%" font-size="14" text-anchor="middle">está literalmente dentro de nós</text>
           </g>
         </svg>
         <div class="ribbon">Em breve no Kindle</div>
@@ -124,24 +169,32 @@
         <div class="video-placeholder">Vídeo do autor (exemplo)</div>
       </div>
       <div style="flex:1;min-width:260px">
-        <h2>Boas-vindas do autor</h2>
-        <p>Mensagem curta do autor explicando o propósito do livro e para quem ele é indicado.</p>
+        <h2 class="animate">Boas-vindas do autor</h2>
+        <p>Uma mensagem do autor explicando por que escreveu o livro e o que o leitor ganha ao ler.</p>
       </div>
     </section>
 
     <section class="synopsis animate container" id="sinopse">
-      <h2>Sinopse</h2>
+      <h2 class="animate">Sinopse</h2>
       <p>Este livro mostra que o DNA funciona como uma linguagem — e que toda linguagem pressupõe uma mente por trás. Uma leitura que une ciência e fé de forma lógica e acessível.</p>
       <div class="features">
-        <div class="feature"><h3>Argumento central</h3><p>Explicado com analogias e exemplos visuais.</p></div>
-        <div class="feature"><h3>Estilo</h3><p>Direto, claro e convidativo.</p></div>
-        <div class="feature"><h3>Único por...</h3><p>Combinar genética e filosofia sem perder a objetividade.</p></div>
+        <div class="feature">
+          <h3>Argumento central</h3>
+          <p>Explicado com analogias e exemplos visuais.</p>
+        </div>
+        <div class="feature">
+          <h3>Estilo</h3>
+          <p>Direto, claro e convidativo.</p>
+        </div>
+        <div class="feature">
+          <h3>O que torna único</h3>
+          <p>Combinar genética e filosofia sem perder a objetividade.</p>
+        </div>
       </div>
     </section>
 
     <section class="author animate container" id="autor">
       <div class="author-card">
-        <!-- Author placeholder SVG -->
         <svg class="author-photo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Foto do autor">
           <defs><linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#c79a3b"/><stop offset="1" stop-color="#ffdd66"/></linearGradient></defs>
           <rect width="100%" height="100%" rx="16" fill="#0f0f10"/>
@@ -150,25 +203,27 @@
         </svg>
         <div>
           <h2>Sobre o autor</h2>
-          <p><strong>Dr. João Exemplo</strong> — pesquisador e comunicador, combina genética e filosofia para apresentar argumentos sólidos e compreensíveis.</p>
+          <p><strong>Dr. João Exemplo</strong> — pesquisador e comunicador científico que une genética e filosofia para apresentar argumentos sólidos e compreensíveis.</p>
           <p class="small">Mini-bio curta para destacar autoridade.</p>
         </div>
       </div>
     </section>
 
     <section class="social-proof animate container" id="provas">
-      <h2>O que leitores estão dizendo</h2>
+      <h2 class="animate">O que leitores estão dizendo</h2>
       <div class="testimonials">
         <div class="testimonial">
           <svg class="avatar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="46" height="46"><defs><linearGradient id="a1" x1="0" x2="1"><stop offset="0" stop-color="#c79a3b"/><stop offset="1" stop-color="#ffdd66"/></linearGradient></defs><rect width="100%" height="100%" rx="14" fill="#0f0f10"/><circle cx="60" cy="40" r="26" fill="url(#a1)"/></svg>
           <p>“Uma leitura que me deu argumentos claros — realmente transformador.”</p>
           <cite>- Maria, leitora beta</cite>
         </div>
+
         <div class="testimonial">
           <svg class="avatar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="46" height="46"><defs><linearGradient id="a2" x1="0" x2="1"><stop offset="0" stop-color="#c79a3b"/><stop offset="1" stop-color="#ffdd66"/></linearGradient></defs><rect width="100%" height="100%" rx="14" fill="#0f0f10"/><circle cx="60" cy="40" r="26" fill="url(#a2)"/></svg>
           <p>“Combina ciência e fé de forma honesta e persuasiva.”</p>
           <cite>- Carlos, professor</cite>
         </div>
+
         <div class="testimonial">
           <svg class="avatar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="46" height="46"><defs><linearGradient id="a3" x1="0" x2="1"><stop offset="0" stop-color="#c79a3b"/><stop offset="1" stop-color="#ffdd66"/></linearGradient></defs><rect width="100%" height="100%" rx="14" fill="#0f0f10"/><circle cx="60" cy="40" r="26" fill="url(#a3)"/></svg>
           <p>“Trechos fáceis de compartilhar e ótimos para debates.”</p>
@@ -180,7 +235,7 @@
     <section class="cta-form animate container" id="avisos">
       <div class="split">
         <div style="flex:1;min-width:260px">
-          <h2>Seja avisado do pré-lançamento</h2>
+          <h2 class="animate">Seja avisado do pré-lançamento</h2>
           <p>Insira seu e-mail e receba uma notificação quando o livro estiver com preço promocional.</p>
           <form id="fake-brevo-form" class="form">
             <input type="email" id="email" placeholder="Seu melhor e-mail" required>
@@ -191,8 +246,9 @@
             Obrigado! Você será avisado quando o livro estiver disponível.
           </div>
         </div>
+
         <div style="flex:1;min-width:260px" id="comprar">
-          <h3>Link para compra</h3>
+          <h3 class="animate">Link para compra</h3>
           <p>Após o lançamento, o botão abaixo levará direto à página da Amazon.</p>
           <a class="btn ghost" href="#" onclick="alert('Link da Amazon será colocado aqui'); return false;">Ver na Amazon</a>
         </div>
@@ -207,25 +263,60 @@
   </main>
 
   <script>
-    // animações e formulário fake
-    document.addEventListener('DOMContentLoaded', function(){
-      // in-view simples
-      document.querySelectorAll('.animate').forEach(el=>{
-        setTimeout(()=> el.classList.add('inview'), 120);
-      });
+    // IntersectionObserver: adiciona classe 'inview' a elementos com .animate
+    (function(){
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('inview');
+            // adicionar shimmer temporário aos títulos quando entram (toque visual)
+            if (entry.target.tagName && (entry.target.tagName.toLowerCase() === 'h1' || entry.target.tagName.toLowerCase() === 'h2' || entry.target.tagName.toLowerCase() === 'h3')) {
+              entry.target.classList.add('shimmer');
+              // remover shimmer após um loop para não distrair continuamente
+              setTimeout(()=> entry.target.classList.remove('shimmer'), 2200);
+            }
+          }
+        });
+      }, {threshold: 0.12});
 
-      // Fake BREVO form submission
-      const form = document.getElementById('fake-brevo-form')
-      const success = document.getElementById('form-success')
-      form.addEventListener('submit', function(e){
-        e.preventDefault()
-        const email = document.getElementById('email').value
-        if(!email) return
-        form.hidden = true
-        success.hidden = false
-        console.log('Simulated subscribe:', email)
-      })
-    })
+      // observar todos os elementos com classe animate
+      document.querySelectorAll('.animate').forEach(el => obs.observe(el));
+
+      // observar headings também (caso tenham sido usados sem .animate)
+      document.querySelectorAll('h1,h2,h3').forEach(h => {
+        if (!h.classList.contains('animate')) {
+          // marcar para observar temporariamente -- dará o mesmo efeito
+          obs.observe(h);
+        }
+      });
+    })();
+
+    // Formulário fake (simula integração BREVO)
+    (function(){
+      const form = document.getElementById('fake-brevo-form');
+      const success = document.getElementById('form-success');
+      if (form) {
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+          const email = document.getElementById('email').value;
+          if (!email) return;
+          // efeito visual simples antes de mostrar sucesso
+          form.querySelector('button').disabled = true;
+          form.querySelector('button').textContent = 'Enviando...';
+          setTimeout(()=>{
+            form.hidden = true;
+            success.hidden = false;
+            console.log('Simulated subscribe:', email);
+          }, 700);
+        });
+      }
+    })();
+
+    // Pequena melhoria: adicionar shimmer on hover (para títulos)
+    document.querySelectorAll('h1,h2,h3').forEach(h=>{
+      h.addEventListener('mouseenter', ()=> h.classList.add('shimmer'));
+      h.addEventListener('mouseleave', ()=> h.classList.remove('shimmer'));
+    });
   </script>
 </body>
 </html>
